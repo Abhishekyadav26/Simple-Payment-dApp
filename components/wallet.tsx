@@ -1,23 +1,9 @@
-/**
- * WalletConnection Component
- *
- * Handles wallet connection/disconnection and displays connected address
- *
- * Features:
- * - Connect button with loading state
- * - Show connected address
- * - Disconnect functionality
- * - Copy address to clipboard
- * - Check if Freighter is installed
- */
-
 'use client';
 
 import { useState } from 'react';
 import { stellar } from '@/lib/stellar-helper';
 import { FaWallet, FaCopy, FaCheck } from 'react-icons/fa';
 import { MdLogout } from 'react-icons/md';
-import { Card } from './example-components';
 
 interface WalletConnectionProps {
   onConnect: (publicKey: string) => void;
@@ -61,80 +47,59 @@ export default function WalletConnection({ onConnect, onDisconnect }: WalletConn
 
   if (!isConnected) {
     return (
-      <Card title="🔐 Connect Your Wallet">
-        <p className="text-white/70 mb-6">
-          Connect your Stellar wallet to view your balance and make transactions.
-        </p>
-
+      <div className="border border-white/10 rounded-lg p-6 bg-white/5">
         <button
           onClick={handleConnect}
           disabled={loading}
-          className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
-              <div className="h-5 w-5 animate-spin rounded-full border-4 border-solid border-white border-r-transparent"></div>
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-solid border-white border-r-transparent"></div>
               Connecting...
             </>
           ) : (
             <>
-              <FaWallet className="text-xl" />
+              <FaWallet className="text-lg" />
               Connect Wallet
             </>
           )}
         </button>
-
-        <div className="mt-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-          <p className="text-white/70 text-sm mb-3">
-            💡 <strong>Supported Wallets</strong>
-          </p>
-        </div>
-      </Card>
+      </div>
     );
   }
 
   return (
-    <Card>
-      <div className="flex items-start justify-between mb-4">
+    <div className="border border-white/10 rounded-lg p-6 bg-white/5 space-y-4">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-white/70 text-sm">Connected</span>
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <span className="text-white text-sm font-medium">Connected</span>
         </div>
         <button
           onClick={handleDisconnect}
-          className="text-red-400 hover:text-red-300 text-sm flex items-center gap-2 transition-colors"
+          className="text-red-400 hover:text-red-300 text-sm flex items-center gap-1 transition-colors"
         >
           <MdLogout /> Disconnect
         </button>
       </div>
 
-      <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+      <div className="bg-white/10 rounded-lg p-4 border border-white/20">
         <p className="text-white/60 text-xs mb-2">Your Address</p>
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-2">
           <p className="text-white font-mono text-sm break-all">
             {publicKey}
           </p>
           <button
             onClick={handleCopyAddress}
-            className="text-blue-400 hover:text-blue-300 text-xl shrink-0 transition-colors"
+            className="text-blue-400 hover:text-blue-300 shrink-0 transition-colors"
             title={copied ? 'Copied!' : 'Copy address'}
           >
             {copied ? <FaCheck className="text-green-400" /> : <FaCopy />}
           </button>
         </div>
       </div>
-
-      <div className="mt-4 flex gap-2">
-        <a
-          href={stellar.getExplorerLink(publicKey, 'account')}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-400 hover:text-blue-300 text-sm underline"
-        >
-          View on Stellar Expert →
-        </a>
-      </div>
-    </Card>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-# Stellar Transaction Demo
+# Simple Payment dApp
 
 A modern web application for interacting with the Stellar blockchain, built with Next.js, TypeScript, and Tailwind CSS. This demo app provides a complete interface for wallet connection, balance checking, sending XLM transactions, and viewing transaction history on the Stellar testnet.
 
